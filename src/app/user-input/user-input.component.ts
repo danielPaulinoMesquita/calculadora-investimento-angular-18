@@ -1,6 +1,7 @@
-import {Component, EventEmitter, output, Output, signal} from '@angular/core';
+import {Component, output, signal} from '@angular/core';
 import {FormsModule} from "@angular/forms";
-import {InvestmentInput} from "../investment-input.module";
+import {InvestmentInput} from "../investment-input.model";
+import {InvestmentService} from "../investment.service";
 
 @Component({
   selector: 'app-user-input',
@@ -12,7 +13,7 @@ import {InvestmentInput} from "../investment-input.module";
   styleUrl: './user-input.component.css'
 })
 export class UserInputComponent {
-  calculateInvestment = output<InvestmentInput>()
+ // calculateInvestment = output<InvestmentInput>()
 
   // @Output() calculateInvestment = new EventEmitter<{ this is the older version of @Output()
   //   initialInvestment: number;
@@ -26,14 +27,20 @@ export class UserInputComponent {
   enteredExpectedReturn = signal("5");
   enteredDuration = signal("10");
 
+  // private is used for being accessible only in this component and doesn't extend outside it
+  constructor(private investmentService: InvestmentService) {
+  }
+
+
   // to convert a string to number, just add a signal "+" before variable number
   onSubmit() {
-    this.calculateInvestment.emit({
-      initialInvestment: + this.enteredInitialInvestment(),
-      duration: + this.enteredDuration(),
-      expectedReturn: + this.enteredExpectedReturn(),
-      annualInvestment: + this.enteredAnnualInvestment()
-    });
+    this.investmentService.calculateInvestmentResults({
+        initialInvestment: + this.enteredInitialInvestment(),
+        duration: + this.enteredDuration(),
+        expectedReturn: + this.enteredExpectedReturn(),
+        annualInvestment: + this.enteredAnnualInvestment()
+      })
+
 
     this.enteredInitialInvestment.set('0');
     this.enteredAnnualInvestment.set('0');
