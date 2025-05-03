@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, input, Input} from '@angular/core';
 import {CurrencyPipe} from "@angular/common";
 
 @Component({
@@ -12,13 +12,22 @@ import {CurrencyPipe} from "@angular/common";
 })
 export class InvestmentResultsComponent {
   //@Input() results?: { this is one way to prevent undefined
-  @Input() results?: {
-    year: number;
-    interest: number;
-    valueEndOfYear: number;
-    annualInvestment: number;
-    totalInterest: number;
-    totalAmountInvested: number
-  }[];
+  // @Input() results?: { older version to use @Input
+  //   year: number;
+  //   interest: number;
+  //   valueEndOfYear: number;
+  //   annualInvestment: number;
+  //   totalInterest: number;
+  //   totalAmountInvested: number
+  // }[];
+
+  results = input<{
+      year: number;
+      interest: number;
+      valueEndOfYear: number;
+      annualInvestment: number;
+      totalInterest: number;
+      totalAmountInvested: number
+  }[]>();
 
 }
